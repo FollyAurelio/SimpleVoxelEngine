@@ -54,9 +54,15 @@ int main(){
     glViewport(0, 0, 800, 600);
     float vertices[] = {-0.5f, -0.5f, 0.0f,
                         0.5f, -0.5f, 0.0f,
-                         0.0f, 0.5f, 0.0f};
+                         -0.5f, 0.5f, 0.0f,
+                        0.70f, 0.5f, 0.0f,
+                        1.0f, 0.5f, 0.0f,
+                         0.85f, 1.0f, 0.0f};
     unsigned int VBO;
     glGenBuffers(1, &VBO);
+
+    
+
     
     const char *VertexShaderSource = "#version 330 core\n"
                                     "layout (location = 0) in vec3 aPos;\n"
@@ -101,18 +107,23 @@ int main(){
     
     
 
+
     
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     while (!glfwWindowShouldClose(window)){
         processInput(window);
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents();        
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shaderProgram);
+        
+        
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-    } 
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+        
+
+    }   
     glfwTerminate();
     return 0;
 }   
