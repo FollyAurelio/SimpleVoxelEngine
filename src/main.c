@@ -55,13 +55,23 @@ int main(){
     float vertices[] = {-0.5f, -0.5f, 0.0f,
                         0.5f, -0.5f, 0.0f,
                          -0.5f, 0.5f, 0.0f,
-                        0.70f, 0.5f, 0.0f,
-                        1.0f, 0.5f, 0.0f,
-                         0.85f, 1.0f, 0.0f};
+                         0.5f, 0.5f, 0.0f};
+                        
+    float vertices1[] = {0.75f, 0.75f, 0.0f,
+                        1.0f, 0.75f, 0.0f,
+                         0.75f, 1.0f, 0.0f,
+                         1.0f, 1.0f, 0.0f};
+
+    unsigned int indices[] = {0, 1, 2, 1, 2, 3};
+    
     unsigned int VBO;
     glGenBuffers(1, &VBO);
-
     
+    unsigned int VBO1;
+    glGenBuffers(1, &VBO1);
+     
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
 
     
     const char *VertexShaderSource = "#version 330 core\n"
@@ -82,11 +92,25 @@ int main(){
                                         "{\n"
                                         "FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
                                         "}\n";
+
+    const char *RedFragmentShaderSource = "#version 330 core\n"
+                                        "out vec4 FragColor;\n"
+                                        "void main()\n"
+                                        "{\n"
+                                        "FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
+                                        "}\n";
     unsigned int FragmentShader;
     FragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(FragmentShader, 1, &FragementShaderSource, NULL);
     glCompileShader(FragmentShader);
     CheckShaderCompilationError(FragmentShader);
+
+
+    unsigned int RedFragmentShader;
+    RedFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(RedFragmentShader, 1, &RedFragmentShaderSource, NULL);
+    glCompileShader(RedFragmentShader);
+    CheckShaderCompilationError(RedFragmentShader);
 
     unsigned int shaderProgram;
     shaderProgram = glCreateProgram();
@@ -94,6 +118,14 @@ int main(){
     glAttachShader(shaderProgram, FragmentShader);
     glLinkProgram(shaderProgram);
     CheckProgramLinkError(shaderProgram);
+
+    unsigned int RedShaderProgram;
+    RedShaderProgram = glCreateProgram();
+    glAttachShader(RedShaderProgram, vertexShader); 
+    glAttachShader(RedShaderProgram, RedFragmentShader);
+    glLinkProgram(RedShaderProgram);
+    CheckProgramLinkError(RedShaderProgram);    
+
     glDeleteShader(vertexShader);
     glDeleteShader(FragmentShader);
 
@@ -102,10 +134,20 @@ int main(){
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
     glEnableVertexAttribArray(0);
     
-    
+    unsigned VAO1;
+    glGenVertexArrays(1, &VAO1);
+    glBindVertexArray(VAO1);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO1);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float),(void*)0);
+    glEnableVertexAttribArray(0);
 
 
     
@@ -117,11 +159,11 @@ int main(){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         glUseProgram(shaderProgram);
-        
-        
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glUseProgram(RedShaderProgram);
+        glBindVertexArray(VAO1);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     }   
     glfwTerminate();
