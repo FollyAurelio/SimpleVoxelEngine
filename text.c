@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <string.h>
+
+void change(int* j){
+    *j = 5;
+}
 
 int main(){
-    char *o = "kok";
-    int i = 3;
-    int *k = &i;
-    printf("%p",&o);
+    int j = 3;
+    change(&j);
+    printf("%d" ,j);
 }

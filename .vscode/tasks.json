@@ -10,6 +10,8 @@
                 "-I${workspaceFolder}/include",
                 "-L${workspaceFolder}/lib",
                 "${workspaceFolder}/src/main.c",
+                "${workspaceFolder}/src/program.c",
+                "${workspaceFolder}/src/shaders.c",
                 "${workspaceFolder}/src/glad.c",
                 "-lglfw3dll",
                 "-o",
