@@ -8,11 +8,17 @@
 
 #include <cglm/struct.h>
 
+vec3s cameraPos = {0.0f, 0.0f, 3.0f};
+vec3s cameraFront = {0.0f, 0.0f, -1.0f};
+vec3s cameraUp = {0.0f, 1.0f, 0.0f};
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 void framebuffer_size_callback(GLFWwindow *window,int width,int height){
     glViewport(0,0,width,height);
 }
 void processInput(GLFWwindow *window,float *alpha){
+    const float cameraSpeed = 2.5f * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS){
         glfwSetWindowShouldClose(window, 1);
     }
@@ -22,7 +28,19 @@ void processInput(GLFWwindow *window,float *alpha){
     else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
         *alpha -= 0.001f;
         }
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+        cameraPos = glms_vec3_add(cameraPos, glms_vec3_scale(cameraFront, cameraSpeed));
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+        cameraPos = glms_vec3_sub(cameraPos, glms_vec3_scale(cameraFront, cameraSpeed));
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+        cameraPos = glms_vec3_sub(cameraPos, glms_vec3_scale(glms_normalize(glms_cross(cameraFront, cameraUp)), cameraSpeed));
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+        cameraPos = glms_vec3_add(cameraPos, glms_vec3_scale(glms_normalize(glms_cross(cameraFront, cameraUp)), cameraSpeed));
         }
+}
 int main(){
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -47,10 +65,47 @@ int main(){
                          -0.5f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f,     0.0f, 1.0f,
                          0.5f, 0.5f, 0.0f , 1.0f, 1.0f, 0.0f,       1.0f, 1.0f};
                         
-    float vertices1[] = {0.75f, 0.75f, 0.0f,  
-                        1.0f, 0.75f, 0.0f, 
-                         0.75f, 1.0f, 0.0f,   
-                         1.0f, 1.0f, 0.0f,  };
+    float vertices1[] = {
+                        -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+                        0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+
+-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+};
+
+                        
 
     unsigned int indices[] = {0, 1, 2, 1, 2, 3};
     unsigned int indicesTriangle[] = {0, 1, 2};
@@ -85,10 +140,10 @@ int main(){
     glBindVertexArray(VAO1);
     glBindBuffer(GL_ARRAY_BUFFER, VBO1);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float),(void*)0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6*sizeof(float),(void*)(3*sizeof(float)));
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(float),(void*)0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float),(void*)(3*sizeof(float)));
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
@@ -126,36 +181,63 @@ int main(){
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture2);
 
+    vec3s cubePositions[][3] = {{0.0f, 0.0f, 0.0f},
+                            { 2.0f, 5.0f, -15.0f},
+                            {-1.5f, -2.2f, -2.5f},
+                            {-3.8f, -2.0f, -12.3f},
+                            { 2.4f, -0.4f, -3.5f},
+                            {-1.7f, 3.0f, -7.5f},
+                            { 1.3f, -2.0f, -2.5f},
+                            { 1.5f, 2.0f, -2.5f},
+                            { 1.5f, 0.2f, -1.5f},
+                            {-1.3f, 1.0f, -1.5f}};
+
     
-    vec3s scale = {0.0f, 0.0f, 1.0f};
-    vec3s transalation = {0.5f, -0.5f, 0.0f};
-    mat4s trans = glms_mat4_identity();
+    
+    mat4s model = glms_mat4_identity();
+    mat4s view; 
+    mat4s perspective = glms_mat4_identity();
+    perspective = glms_perspective(glm_rad(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
     float alpha = 0.2f;
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glEnable(GL_DEPTH_TEST);
     while (!glfwWindowShouldClose(window)){
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
         processInput(window, &alpha);
         glfwSwapBuffers(window);
         glfwPollEvents();        
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
         UseGLProgram(InputShaderProgram);
         glUniform1f(glGetUniformLocation(InputShaderProgram.ID, "offset"), 0.25f);
         glUniform1f(glGetUniformLocation(InputShaderProgram.ID, "alpha"), alpha);
 
-        glBindVertexArray(VAO);
-        trans = glms_mat4_identity();
-        glUniformMatrix4fv(glGetUniformLocation(InputShaderProgram.ID, "transform"), 1, GL_FALSE, trans.raw[0]);
+        glBindVertexArray(VAO1);
+        view = glms_lookat(cameraPos, glms_vec3_add(cameraPos, cameraFront), cameraUp);
+        glUniformMatrix4fv(glGetUniformLocation(InputShaderProgram.ID, "view"), 1, GL_FALSE, view.raw[0]);
+        glUniformMatrix4fv(glGetUniformLocation(InputShaderProgram.ID, "projection"), 1, GL_FALSE, perspective.raw[0]);
 
         
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         
-        trans = glms_translate(trans, transalation);
-        scale.x = (float)fabs(sin(glfwGetTime()));scale.y = (float)fabs(sin(glfwGetTime()));
-        trans = glms_scale(trans, scale);
+        for(int i = 0; i < 10 ; i++){
+            model = glms_mat4_identity();
+            model = glms_translate(model, *cubePositions[i]);
+            model = glms_rotate(model, (float)glfwGetTime() * glm_rad((float)(20.f * i)), (vec3s){1.0f,0.3f,0.5f});
+
+            glUniformMatrix4fv(glGetUniformLocation(InputShaderProgram.ID, "model"), 1, GL_FALSE, model.raw[0]);
+        
+
+        
+            glDrawArrays(GL_TRIANGLES, 0, 36);}
+        
+        
+        
        
-        glUniformMatrix4fv(glGetUniformLocation(InputShaderProgram.ID, "transform"), 1, GL_FALSE, trans.raw[0]);        
+              
         
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
         //glUseProgram(RedShaderProgram);
         //glBindVertexArray(VAO1);
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);

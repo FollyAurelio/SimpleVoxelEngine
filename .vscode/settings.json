@@ -49,6 +49,7 @@
         "stdio.h": "c",
         "program.h": "c",
         "shaders.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "struct.h": "c"
     }
 }
