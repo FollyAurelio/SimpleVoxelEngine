@@ -1,1 +1,1 @@
-MyWinPet32
+This is a repository to learn OpenGL
