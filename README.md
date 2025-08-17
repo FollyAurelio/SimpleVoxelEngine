@@ -1,1 +1,1 @@
-This is a repository to learn OpenGL
+Simple voxel engine in c++ and opengl
