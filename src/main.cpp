@@ -98,10 +98,10 @@ int main()
 	glEnableVertexAttribArray(0);
 	Shader shader("shaders/vertex.vs", "shaders/fragment.fs");
 	shader.use();
-	Shader.setVector3("objectColor", 1.0f, 0.5f, 0.31f);
-	Shader.setVector3("lightColor", 1.0f, 1.0f, 1.0f);
+	shader.setVector3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader.setVector3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 	Shader light_shader("shaders/vertex.vs", "shaders/lighting.fs");
-
+	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 	while (!glfwWindowShouldClose(window)){
 		float currentFrame = (float)glfwGetTime();
@@ -124,6 +124,14 @@ int main()
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(lightingVAO);
 		light_shader.use();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		shader.setMatrix4("model", model);
+		shader.setMatrix4("view", view);
+		shader.setMatrix4("projection", projection);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
 
 	}
 	glfwTerminate();
