@@ -1,11 +1,23 @@
 #include <iostream>
 #include "gfx.h"
 #include "shader.h"
+#include "camera.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
+int window_width = 800;
+int window_height = 600;
+
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+float lastX = window_width / 2.0f;
+float lastY = window_height / 2.0f;
+float deltaTime = 0.0f;	// time between current frame and last frame
+float lastFrame = 0.0f;
+bool firstMouse = true;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void keyboard_callback(GLFWwindow* window, int key, int scanecode, int action, int mods);
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 int main()
 {
@@ -27,11 +39,53 @@ int main()
 	}
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetKeyCallback(window, keyboard_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, 800, 600);
-	float vertices[] = {
+	glEnable(GL_DEPTH_TEST);
+	/*float vertices[] = {
 			-0.5f, -0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f,
 			0.0f, 0.5f, 0.0f
+			};*/
+	float vertices[] = {
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+			0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
 			};
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
@@ -40,17 +94,30 @@ int main()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	Shader shader("shaders/vertex.vs", "shaders/fragment.fs");
+
 	while (!glfwWindowShouldClose(window)){
+		float currentFrame = (float)glfwGetTime();
+        	deltaTime = currentFrame - lastFrame;
+        	lastFrame = currentFrame;
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
 		glBindVertexArray(VAO);
 		shader.use();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glm::mat4 model = glm::mat4(1.0f);
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		view = camera.GetViewMatrix();
+		projection = glm::perspective(glm::radians(45.0f), (float)window_width / (float)window_height, 0.1f, 100.0f);
+		shader.setMatrix4("model", model);
+		shader.setMatrix4("view", view);
+		shader.setMatrix4("projection", projection);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 	}
 	glfwTerminate();
 	return 0;
@@ -59,17 +126,72 @@ int main()
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	window_width = width;
+	window_height = height;
 }
 
 void keyboard_callback(GLFWwindow* window, int key, int scanecode, int action, int mods)
 {
-	if(action == GLFW_PRESS){
+	if(action == GLFW_PRESS || action == GLFW_REPEAT){
 		switch(key){
 			case GLFW_KEY_ESCAPE:
 			glfwSetWindowShouldClose(window, true);
 			break;
+			
+			case GLFW_KEY_W:
+			camera.ProcessKeyboard(FORWARD, deltaTime);
+			break;
+
+			case GLFW_KEY_A:
+			camera.ProcessKeyboard(LEFT, deltaTime);
+			break;
+
+			case GLFW_KEY_D:
+			camera.ProcessKeyboard(RIGHT, deltaTime);
+			break;
+			case GLFW_KEY_S:
+			camera.ProcessKeyboard(BACKWARD, deltaTime);
+			break;
+
+			case GLFW_KEY_SPACE:
+			camera.ProcessKeyboard(UP, deltaTime);
+			break;
+
+			case GLFW_KEY_LEFT_SHIFT:
+			camera.ProcessKeyboard(DOWN, deltaTime);
+			break;
+
+
+
+
+
+
 		}
 	}
 }
 	
-	
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+{
+    float xpos = static_cast<float>(xposIn);
+    float ypos = static_cast<float>(yposIn);
+
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+    lastX = xpos;
+    lastY = ypos;
+
+    camera.ProcessMouseMovement(xoffset, yoffset);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    camera.ProcessMouseScroll(static_cast<float>(yoffset));
+}
