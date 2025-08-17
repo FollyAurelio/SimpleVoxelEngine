@@ -9,11 +9,8 @@ int window_width = 800;
 int window_height = 600;
 
 Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-float lastX = window_width / 2.0f;
-float lastY = window_height / 2.0f;
 float deltaTime = 0.0f;	// time between current frame and last frame
 float lastFrame = 0.0f;
-bool firstMouse = true;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void keyboard_callback(GLFWwindow* window, int key, int scanecode, int action, int mods);
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
@@ -44,11 +41,7 @@ int main()
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, 800, 600);
 	glEnable(GL_DEPTH_TEST);
-	/*float vertices[] = {
-			-0.5f, -0.5f, 0.0f,
-			0.5f, -0.5f, 0.0f,
-			0.0f, 0.5f, 0.0f
-			};*/
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	float vertices[] = {
 			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 			0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
@@ -96,7 +89,19 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	unsigned int lightingVAO;
+	glGenVertexArrays(1, &lightingVAO);
+	glBindVertexArray(lightingVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 	Shader shader("shaders/vertex.vs", "shaders/fragment.fs");
+	shader.use();
+	Shader.setVector3("objectColor", 1.0f, 0.5f, 0.31f);
+	Shader.setVector3("lightColor", 1.0f, 1.0f, 1.0f);
+	Shader light_shader("shaders/vertex.vs", "shaders/lighting.fs");
+
 
 	while (!glfwWindowShouldClose(window)){
 		float currentFrame = (float)glfwGetTime();
@@ -104,20 +109,22 @@ int main()
         	lastFrame = currentFrame;
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
 		glBindVertexArray(VAO);
 		shader.use();
 		glm::mat4 model = glm::mat4(1.0f);
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+		//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		view = camera.GetViewMatrix();
 		projection = glm::perspective(glm::radians(45.0f), (float)window_width / (float)window_height, 0.1f, 100.0f);
 		shader.setMatrix4("model", model);
 		shader.setMatrix4("view", view);
 		shader.setMatrix4("projection", projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		glBindVertexArray(lightingVAO);
+		light_shader.use();
+
 	}
 	glfwTerminate();
 	return 0;
@@ -175,18 +182,18 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
     float xpos = static_cast<float>(xposIn);
     float ypos = static_cast<float>(yposIn);
 
-    if (firstMouse)
+    if (camera.firstMouse)
     {
-        lastX = xpos;
-        lastY = ypos;
-        firstMouse = false;
+        camera.lastX = xpos;
+        camera.lastY = ypos;
+        camera.firstMouse = false;
     }
 
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+    float xoffset = xpos - camera.lastX;
+    float yoffset = camera.lastY - ypos; // reversed since y-coordinates go from bottom to top
 
-    lastX = xpos;
-    lastY = ypos;
+    camera.lastX = xpos;
+    camera.lastY = ypos;
 
     camera.ProcessMouseMovement(xoffset, yoffset);
 }
