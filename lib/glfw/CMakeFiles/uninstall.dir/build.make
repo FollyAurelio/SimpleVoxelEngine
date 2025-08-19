@@ -53,10 +53,10 @@ RM = /sbin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/pancake/Documents/LearnOpenGL/lib/glfw
+CMAKE_SOURCE_DIR = /home/pancake/Documents/SimpleVoxelEngine/lib/glfw
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pancake/Documents/LearnOpenGL/lib/glfw
+CMAKE_BINARY_DIR = /home/pancake/Documents/SimpleVoxelEngine/lib/glfw
 
 # Utility rule file for uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/uninstall.dir/compiler_depend.make
 include CMakeFiles/uninstall.dir/progress.make
 
 CMakeFiles/uninstall:
-	/sbin/cmake -P /home/pancake/Documents/LearnOpenGL/lib/glfw/cmake_uninstall.cmake
+	/sbin/cmake -P /home/pancake/Documents/SimpleVoxelEngine/lib/glfw/cmake_uninstall.cmake
 
 CMakeFiles/uninstall.dir/codegen:
 .PHONY : CMakeFiles/uninstall.dir/codegen
@@ -85,6 +85,6 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
-	cd /home/pancake/Documents/LearnOpenGL/lib/glfw && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pancake/Documents/LearnOpenGL/lib/glfw /home/pancake/Documents/LearnOpenGL/lib/glfw /home/pancake/Documents/LearnOpenGL/lib/glfw /home/pancake/Documents/LearnOpenGL/lib/glfw /home/pancake/Documents/LearnOpenGL/lib/glfw/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/pancake/Documents/SimpleVoxelEngine/lib/glfw && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pancake/Documents/SimpleVoxelEngine/lib/glfw /home/pancake/Documents/SimpleVoxelEngine/lib/glfw /home/pancake/Documents/SimpleVoxelEngine/lib/glfw /home/pancake/Documents/SimpleVoxelEngine/lib/glfw /home/pancake/Documents/SimpleVoxelEngine/lib/glfw/CMakeFiles/uninstall.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/uninstall.dir/depend
 

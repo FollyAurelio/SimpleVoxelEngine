@@ -4,7 +4,7 @@
 # compile C with /sbin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/home/pancake/Documents/LearnOpenGL/lib/glfw/deps -I/home/pancake/Documents/LearnOpenGL/lib/glfw/include
+C_INCLUDES = -I/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/deps -I/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/include
 
 C_FLAGS = -std=gnu99
 

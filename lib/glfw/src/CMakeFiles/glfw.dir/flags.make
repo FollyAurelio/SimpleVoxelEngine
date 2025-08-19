@@ -4,7 +4,7 @@
 # compile C with /sbin/cc
 C_DEFINES = -DHAVE_MEMFD_CREATE -D_DEFAULT_SOURCE -D_GLFW_WAYLAND -D_GLFW_X11
 
-C_INCLUDES = -I/home/pancake/Documents/LearnOpenGL/lib/glfw/include -I/home/pancake/Documents/LearnOpenGL/lib/glfw/src
+C_INCLUDES = -I/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/include -I/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/src
 
 C_FLAGS = -std=c99 -fPIC -Wall
 

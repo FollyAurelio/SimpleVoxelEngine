@@ -43,43 +43,44 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	float vertices[] = {
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-			0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-			};
+		// positions // normals // texture coords
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+		};
 	unsigned int VBO;
 	glGenBuffers(1, &VBO);
 	unsigned int VAO;
@@ -87,21 +88,24 @@ int main()
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
 
 	unsigned int lightingVAO;
 	glGenVertexArrays(1, &lightingVAO);
 	glBindVertexArray(lightingVAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 	Shader shader("shaders/vertex.vs", "shaders/fragment.fs");
 	shader.use();
 	shader.setVector3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
 	shader.setVector3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-	Shader light_shader("shaders/vertex.vs", "shaders/lighting.fs");
 	glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+	shader.setVector3("lightPos", lightPos);
+	Shader light_shader("shaders/vertex.vs", "shaders/lighting.fs");
 
 	while (!glfwWindowShouldClose(window)){
 		float currentFrame = (float)glfwGetTime();
@@ -117,13 +121,14 @@ int main()
 		glm::mat4 projection = glm::mat4(1.0f);
 		//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		view = camera.GetViewMatrix();
+		shader.setVector3("viewPos", camera.Position);
 		projection = glm::perspective(glm::radians(45.0f), (float)window_width / (float)window_height, 0.1f, 100.0f);
 		shader.setMatrix4("model", model);
 		shader.setMatrix4("view", view);
 		shader.setMatrix4("projection", projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(lightingVAO);
-		light_shader.use();
+		light_shader.use();;
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, lightPos);
 		model = glm::scale(model, glm::vec3(0.2f));
@@ -148,42 +153,31 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 void keyboard_callback(GLFWwindow* window, int key, int scanecode, int action, int mods)
 {
 	if(action == GLFW_PRESS || action == GLFW_REPEAT){
-		switch(key){
-			case GLFW_KEY_ESCAPE:
-			glfwSetWindowShouldClose(window, true);
-			break;
+			if(key == GLFW_KEY_ESCAPE)
+				glfwSetWindowShouldClose(window, true);
 			
-			case GLFW_KEY_W:
-			camera.ProcessKeyboard(FORWARD, deltaTime);
-			break;
+			if(key ==  GLFW_KEY_W)
+				camera.ProcessKeyboard(FORWARD, deltaTime);
 
-			case GLFW_KEY_A:
-			camera.ProcessKeyboard(LEFT, deltaTime);
-			break;
+			if(key ==  GLFW_KEY_A)
+				camera.ProcessKeyboard(LEFT, deltaTime);
 
-			case GLFW_KEY_D:
-			camera.ProcessKeyboard(RIGHT, deltaTime);
-			break;
-			case GLFW_KEY_S:
-			camera.ProcessKeyboard(BACKWARD, deltaTime);
-			break;
+			if(key ==  GLFW_KEY_D)
+				camera.ProcessKeyboard(RIGHT, deltaTime);
+			if(key == GLFW_KEY_S)
+				camera.ProcessKeyboard(BACKWARD, deltaTime);
 
-			case GLFW_KEY_SPACE:
-			camera.ProcessKeyboard(UP, deltaTime);
-			break;
+			if(key == GLFW_KEY_SPACE)
+				camera.ProcessKeyboard(UP, deltaTime);
 
-			case GLFW_KEY_LEFT_SHIFT:
-			camera.ProcessKeyboard(DOWN, deltaTime);
-			break;
-
-
-
-
-
-
-		}
+			if(key == GLFW_KEY_Z)
+				camera.ProcessKeyboard(DOWN, deltaTime);
 	}
 }
+
+
+
+
 	
 void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {

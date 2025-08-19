@@ -1,9 +1,9 @@
 
-if (NOT EXISTS "/home/pancake/Documents/LearnOpenGL/lib/glfw/install_manifest.txt")
-    message(FATAL_ERROR "Cannot find install manifest: \"/home/pancake/Documents/LearnOpenGL/lib/glfw/install_manifest.txt\"")
+if (NOT EXISTS "/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/install_manifest.txt")
+    message(FATAL_ERROR "Cannot find install manifest: \"/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/install_manifest.txt\"")
 endif()
 
-file(READ "/home/pancake/Documents/LearnOpenGL/lib/glfw/install_manifest.txt" files)
+file(READ "/home/pancake/Documents/SimpleVoxelEngine/lib/glfw/install_manifest.txt" files)
 string(REGEX REPLACE "\n" ";" files "${files}")
 
 foreach (file ${files})
