@@ -1,1 +1,1 @@
-Simple voxel engine in c++ and opengl
+Following learn opengl tutorial

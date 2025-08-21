@@ -127,6 +127,9 @@ int main()
 		shader.setMatrix4("view", view);
 		shader.setMatrix4("projection", projection);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		model = glm::translate(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		shader.setMatrix4("model", model);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		glBindVertexArray(lightingVAO);
 		light_shader.use();;
 		model = glm::mat4(1.0f);
